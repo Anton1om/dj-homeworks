@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, reverse
 
 DATA = {
     'omlet': {
@@ -19,12 +20,29 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+def get_request_data(request, recipe_type):
+    try:
+        servings = int(request.GET.get('servings'))
+    except:
+        servings = 1
+    data = {}
+    for key, value in DATA[recipe_type].items():
+        data[key] = value*servings
+    return data
+
+
+def omlet(request):
+    data = get_request_data(request, 'omlet')
+    return render(request, 'calculator/index.html', {'recipe': data})
+
+
+def pasta(request):
+    data = get_request_data(request, 'pasta')
+    return render(request, 'calculator/index.html', {'recipe': data})
+
+
+def buter(request):
+    data = get_request_data(request, 'buter')
+    return render(request, 'calculator/index.html', {'recipe': data})
+
