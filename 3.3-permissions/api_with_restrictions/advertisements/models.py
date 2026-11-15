@@ -6,6 +6,7 @@ class AdvertisementStatusChoices(models.TextChoices):
     """Статусы объявления."""
 
     OPEN = "OPEN", "Открыто"
+    DRAFT = "DRAFT", "Черновик"
     CLOSED = "CLOSED", "Закрыто"
 
 
